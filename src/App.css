@@ -2,3 +2,7 @@ body {
   background-color: #f6f6f6;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+p {
+  margin: 0;
+}

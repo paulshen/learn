@@ -1,13 +1,16 @@
 /* @flow */
 import React from 'react';
 import Radium from 'radium';
+import Markdown from 'react-markdown';
 
 import { UIText } from '../../components/core';
 
 const PostUnit = Radium(function({ post }: { post: Post }) {
   return (
     <div style={PostUnit.Styles.Root}>
-      <UIText size={14} style={PostUnit.Styles.Content}>{post.content}</UIText>
+      <UIText size={14} style={PostUnit.Styles.Content}>
+        <Markdown source={post.content} />
+      </UIText>
       <UIText size={12}>{new Date(post.createdAt).toDateString()}</UIText>
     </div>
   );
