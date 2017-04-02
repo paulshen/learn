@@ -5,17 +5,14 @@ import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 import { compose } from 'redux';
 
-import { UIText } from '../components/core';
-import { selectors as userSelectors } from '../../data/user';
+import { selectors as userSelectors } from '../../../data/user';
+import Feed from './Feed';
 
 class IndexPage extends Component {
   props: {
     loading: boolean,
     isLoggedIn: boolean,
-    posts: ?{
-      content: string,
-      createdAt: string,
-    },
+    posts: ?Post[],
     userId: ?string,
     createPost: (content: string, userId: string) => Promise<any>,
     refetch: () => void,
@@ -38,7 +35,9 @@ class IndexPage extends Component {
   };
 
   render() {
-    if (!this.props.loading && !this.props.isLoggedIn) {
+    const { loading, isLoggedIn, posts } = this.props;
+
+    if (!loading && !isLoggedIn) {
       return <Redirect to="/login" />;
     }
 
@@ -51,7 +50,7 @@ class IndexPage extends Component {
           />
           <button>Add</button>
         </form>
-        <UIText size={14}>{JSON.stringify(this.props)}</UIText>
+        {posts && <Feed posts={posts} />}
       </div>
     );
   }
