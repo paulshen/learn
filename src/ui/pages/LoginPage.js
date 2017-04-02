@@ -3,12 +3,18 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+
+import { GraphqlClient } from '../../data';
+import { actions as userActions } from '../../data/user';
 
 class LoginPage extends Component {
   props: {
     signin: (email: string, password: string) => Promise<{
       data: { signinUser: { token: string } },
     }>,
+    setUserToken: (token: string) => any,
   };
   state = {
     email: '',
@@ -18,10 +24,17 @@ class LoginPage extends Component {
 
   _onSubmit = async e => {
     e.preventDefault();
-    let { data: { signinUser: token } } = await this.props.signin(
+    let {
+      data: { signinUser: { token } },
+    }: { data: { signinUser: { token: string } } } = await this.props.signin(
       this.state.email,
       this.state.password
     );
+    this.props.setUserToken(token);
+    await GraphqlClient.query({
+      query: gql`{ user { id } }`,
+      fetchPolicy: 'network-only',
+    });
     this.setState({
       redirectToIndex: true,
     });
@@ -48,20 +61,25 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage = graphql(
-  gql`
+LoginPage = compose(
+  graphql(
+    gql`
   mutation ($email: String!, $password: String!) {
     signinUser(email: { email: $email, password: $password }) {
       token
     }
   }
 `,
-  {
-    props: ({ mutate }) => ({
-      signin: (email: string, password: string) =>
-        mutate({ variables: { email, password } }),
-    }),
-  }
+    {
+      props: ({ mutate }) => ({
+        signin: (email: string, password: string) =>
+          mutate({ variables: { email, password } }),
+      }),
+    }
+  ),
+  connect(null, (dispatch: Dispatch) => ({
+    setUserToken: (token: string) => dispatch(userActions.setUserToken(token)),
+  }))
 )(LoginPage);
 
 export default LoginPage;
