@@ -39,8 +39,8 @@ export const Store = createStore(
   }),
   compose(
     applyMiddleware(GraphqlClient.middleware()),
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
-    autoRehydrate()
+    autoRehydrate(),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
 
