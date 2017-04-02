@@ -7,30 +7,23 @@ import { compose } from 'redux';
 
 import { Title } from '../../components/core';
 import { selectors as userSelectors } from '../../../data/user';
+import AddForm from './AddForm';
 import Feed from './Feed';
 
 class IndexPage extends Component {
   props: {
     loading: boolean,
     isLoggedIn: boolean,
-    posts: ?Post[],
+    posts: ?(Post[]),
     userId: ?string,
     createPost: (content: string, userId: string) => Promise<any>,
     refetch: () => void,
   };
-  state = {
-    content: '',
-  };
 
-  _onContentChange = e => {
-    this.setState({ content: e.target.value });
-  };
-
-  _onSubmit = async e => {
-    e.preventDefault();
+  _onFormAdd = async (content: string) => {
     const { userId } = this.props;
     if (userId) {
-      await this.props.createPost(this.state.content, userId);
+      await this.props.createPost(content, userId);
       this.props.refetch();
     }
   };
@@ -45,13 +38,7 @@ class IndexPage extends Component {
     return (
       <div>
         <Title>What did you learn today?</Title>
-        <form onSubmit={this._onSubmit}>
-          <textarea
-            value={this.state.content}
-            onChange={this._onContentChange}
-          />
-          <button>Add</button>
-        </form>
+        <AddForm onFormAdd={this._onFormAdd} />
         {posts && <Feed posts={posts} />}
       </div>
     );
