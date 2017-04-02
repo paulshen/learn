@@ -1,7 +1,8 @@
 /* @flow */
 import React, { Component } from 'react';
+import Radium from 'radium';
 
-export default class AddForm extends Component {
+class AddForm extends Component {
   props: {
     onFormAdd: (content: string) => Promise<void>,
   };
@@ -20,10 +21,28 @@ export default class AddForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this._onSubmit}>
-        <textarea value={this.state.content} onChange={this._onContentChange} />
-        <button>Add</button>
+      <form onSubmit={this._onSubmit} style={Styles.Root}>
+        <textarea
+          value={this.state.content}
+          onChange={this._onContentChange}
+          style={Styles.Textarea}
+        />
+        <div><button>Add</button></div>
       </form>
     );
   }
 }
+
+export default Radium(AddForm);
+
+const Styles = {
+  Root: {
+    marginBottom: 60,
+  },
+  Textarea: {
+    border: 0,
+    boxSizing: 'border-box',
+    minHeight: 80,
+    width: 360,
+  },
+};

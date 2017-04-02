@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 import { compose } from 'redux';
 
-import { Title } from '../../components/core';
+import { PageBody, Title } from '../../components/core';
 import { selectors as userSelectors } from '../../../data/user';
 import AddForm from './AddForm';
 import Feed from './Feed';
@@ -36,11 +36,11 @@ class IndexPage extends Component {
     }
 
     return (
-      <div>
+      <PageBody>
         <Title>What did you learn today?</Title>
         <AddForm onFormAdd={this._onFormAdd} />
         {posts && <Feed posts={posts} />}
-      </div>
+      </PageBody>
     );
   }
 }
@@ -50,7 +50,7 @@ IndexPage = compose(
     gql`{
     user {
       id
-      posts { id content createdAt }
+      posts(orderBy: createdAt_DESC) { id content createdAt }
     }
   }`,
     {
