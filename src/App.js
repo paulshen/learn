@@ -3,12 +3,28 @@ import React, { Component } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-import { GraphqlClient, Store } from './data';
+import { GraphqlClient, Rehydrated, Store } from './data';
 import IndexPage from './ui/pages/IndexPage';
 import LoginPage from './ui/pages/LoginPage';
 
 class App extends Component {
+  state = {
+    rehydrated: false,
+  };
+
+  componentDidMount() {
+    Rehydrated.then(() => {
+      this.setState({
+        rehydrated: true,
+      });
+    });
+  }
+
   render() {
+    if (!this.state.rehydrated) {
+      return null;
+    }
+
     return (
       <ApolloProvider store={Store} client={GraphqlClient}>
         <BrowserRouter>

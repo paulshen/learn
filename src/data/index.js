@@ -3,6 +3,7 @@ import React from 'react';
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
 import * as user from './user';
 
@@ -38,6 +39,17 @@ export const Store = createStore(
   }),
   compose(
     applyMiddleware(GraphqlClient.middleware()),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
+    autoRehydrate()
   )
 );
+
+export const Rehydrated = new Promise((resolve, reject) => {
+  persistStore(
+    Store,
+    {
+      whitelist: ['user'],
+    },
+    resolve
+  );
+});

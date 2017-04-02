@@ -1,4 +1,5 @@
 /* @flow */
+import { REHYDRATE } from 'redux-persist/constants';
 
 type UserState = {
   token: ?string,
@@ -15,6 +16,11 @@ export function reducer(
   action: Object
 ): UserState {
   switch (action.type) {
+    case REHYDRATE:
+      return {
+        ...state,
+        ...action.payload.user,
+      };
     case SET_TOKEN:
       return {
         ...state,
