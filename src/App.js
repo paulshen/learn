@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { StyleRoot } from 'radium';
 
 import { GraphqlClient, Rehydrated, Store } from './data';
 import IndexPage from './ui/pages/IndexPage';
@@ -28,12 +29,14 @@ class App extends Component {
 
     return (
       <ApolloProvider store={Store} client={GraphqlClient}>
-        <BrowserRouter>
-          <div>
-            <Route path="/login" component={LoginPage} />
-            <Route exact={true} path="/" component={IndexPage} />
-          </div>
-        </BrowserRouter>
+        <StyleRoot>
+          <BrowserRouter>
+            <div>
+              <Route path="/login" component={LoginPage} />
+              <Route exact={true} path="/" component={IndexPage} />
+            </div>
+          </BrowserRouter>
+        </StyleRoot>
       </ApolloProvider>
     );
   }

@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 import { compose } from 'redux';
 
+import { UIText } from '../components/core';
 import { selectors as userSelectors } from '../../data/user';
 
 class IndexPage extends Component {
@@ -50,7 +51,7 @@ class IndexPage extends Component {
           />
           <button>Add</button>
         </form>
-        <div>{JSON.stringify(this.props)}</div>
+        <UIText size={14}>{JSON.stringify(this.props)}</UIText>
       </div>
     );
   }
