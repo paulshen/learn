@@ -5,11 +5,15 @@ import Markdown from 'react-markdown';
 
 import { UIText } from '../../components/core';
 
+const MarkdownRenderer = {
+  paragraph: ({ literal, nodeKey, ...props }) => <UIText {...props} size={14} />,
+};
+
 const PostUnit = Radium(function({ post }: { post: Post }) {
   return (
     <div style={PostUnit.Styles.Root}>
       <UIText size={14} style={PostUnit.Styles.Content}>
-        <Markdown source={post.content} />
+        <Markdown source={post.content} renderers={MarkdownRenderer} />
       </UIText>
       <UIText size={12}>{new Date(post.createdAt).toDateString()}</UIText>
     </div>
