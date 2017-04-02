@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 import { compose } from 'redux';
 
+import { Title } from '../../components/core';
 import { selectors as userSelectors } from '../../../data/user';
 import Feed from './Feed';
 
@@ -43,6 +44,7 @@ class IndexPage extends Component {
 
     return (
       <div>
+        <Title>What did you learn today?</Title>
         <form onSubmit={this._onSubmit}>
           <textarea
             value={this.state.content}
