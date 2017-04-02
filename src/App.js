@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { GraphqlClient, Rehydrated, Store } from './data';
 import IndexPage from './ui/pages/IndexPage';
 import LoginPage from './ui/pages/LoginPage';
+import './App.css';
 
 class App extends Component {
   state = {
