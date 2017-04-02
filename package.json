@@ -5,6 +5,7 @@
   "dependencies": {
     "apollo-client": "^1.0.1",
     "graphql-tag": "^2.0.0",
+    "radium": "^0.18.2",
     "react": "^15.4.2",
     "react-apollo": "^1.0.0",
     "react-dom": "^15.4.2",
